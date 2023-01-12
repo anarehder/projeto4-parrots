@@ -1,0 +1,61 @@
+body{
+    background-color: #EEF9BF;
+}
+
+.titulo{
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 56px;
+    line-height: 66px;
+    color: #75B79E;
+    text-align: center;
+    padding-top: 45px;
+    padding-bottom: 45px;
+    background-color: #EEF9BF;
+}
+
+.jogo{
+    display: flex;
+    flex-wrap: wrap;
+    width: 960px;
+    margin-left: calc(50% - 480px);
+    background-color: #EEF9BF;
+    justify-content: space-around;
+}
+
+.carta{
+    width: 120px;
+    height: 150px;
+    background-color: #99CEA8;
+    border: 1px solid #99CEA8;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin: 20px;
+}
+
+.carta img{
+    width: 100px;
+    height: 100px;
+    padding: 25px 10px;
+    
+}
+
+@media (max-width: 960px) {
+    .jogo{
+        width: 100%;
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 335px) {
+    .titulo{
+        font-size: 36px;
+        line-height: 42px;
+    }
+
+    .carta{
+        margin-left: 100px;
+        margin-right: 100px;
+    }
+}
