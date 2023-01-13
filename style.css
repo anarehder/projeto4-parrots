@@ -27,11 +27,8 @@ body{
 .carta{
     width: 120px;
     height: 150px;
-    background-color: #99CEA8;
-    border: 1px solid #99CEA8;
-    border-radius: 5px;
-    box-sizing: border-box;
     margin: 20px;
+    position: relative;
 }
 
 .carta img{
@@ -40,6 +37,35 @@ body{
     padding: 25px 10px;
     
 }
+
+.face {
+    width: 100%;
+    height: 100%;
+    background-color: #99CEA8;
+    border: 1px solid #99CEA8;
+    border-radius: 5px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    backface-visibility: hidden;
+    transition: all .5s;
+    transform-style: preserve-3d;
+}
+
+.back-face {
+    transform: rotateY(180deg);
+}
+
+.girar-front-face {
+    transform: rotateY(-180deg);
+}
+
+.girar-back-face {
+    transform: rotateY(0deg);
+}
+
 
 @media (max-width: 960px) {
     .jogo{
