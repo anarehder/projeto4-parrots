@@ -1,7 +1,12 @@
 const CartasTotal = ["parrot1.gif","parrot1.gif","parrot2.gif","parrot2.gif","parrot3.gif","parrot3.gif","parrot4.gif","parrot4.gif","parrot5.gif","parrot5.gif","parrot6.gif","parrot6.gif","parrot7.gif","parrot7.gif"];
 const CartasJogo = [];
+const NomeImagem = [];
+const CartaSelecionada = [];
 var NumCartas;
 var ConfirmaNumero = 0; // igual a 0 significa que não aceito
+var Selecionadas = 0;
+
+//debugger
 
 while(ConfirmaNumero == 0){
     NumCartas = Number(prompt("Com quantas cartas você deseja jogar?"));
@@ -20,7 +25,6 @@ while(ConfirmaNumero == 0){
 }
 
 const DistCartas = document.querySelector(".jogo");
-DistCartas.innerHTML="";
 
 //Colocar imagens em sequencia aletória
 for (let i = 0; i < NumCartas; i++){
@@ -33,7 +37,7 @@ for (let contador = 0; contador < NumCartas; contador++){
     DistCartas.innerHTML += `
     <div data-test="card" class="carta">
       <div class="front-face face" onclick="virarCartas(this)">
-      <img ata-test="face-down-image" src="./imagens/back.png" alt="parrot">
+      <img data-test="face-down-image" src="./imagens/back.png" alt="parrot">
       </div>
       <div class="back-face face">
       <img data-test="face-up-image" src="./imagens/${CartasJogo[contador]}" alt="parrot">
@@ -42,11 +46,56 @@ for (let contador = 0; contador < NumCartas; contador++){
     `;
 }
 
+
+
+
+//Ao clicar em uma carta, ela deve ser virada.
 function virarCartas(cartaSelecionada){
     cartaSelecionada.classList.add("girar-front-face");
     const selecionadaPai = cartaSelecionada.parentNode;
     const selecionadaVerso = selecionadaPai.querySelector(".back-face");
     selecionadaVerso.classList.add("girar-back-face");
+    const imagem = selecionadaVerso.querySelector("img");
+    NomeImagem.push(imagem.getAttribute('src')); // pega e guarda o nome e caminho do arquivo
+    console.log(NomeImagem);
+    CartaSelecionada.push(cartaSelecionada); // pega e guarda a div selecionada
+    console.log(CartaSelecionada);
+    Selecionadas++;
+    console.log(Selecionadas);
+    console.log(Selecionadas%2);
+    //Caso seja a primeira carta do par, ela deve permanecer virada até o usuário escolher a segunda carta.
+    //Caso seja a segunda carta virada, existem duas situações:
+    if (Selecionadas%2 == 0){
+        if (NomeImagem[0] == NomeImagem[1]){
+            //Caso seja igual à primeira carta devem ficar viradas pra cima até o final do jogo;
+            zerarListas(NomeImagem,CartaSelecionada);
+            Selecionadas = 0;
+        } else if (NomeImagem[0] != NomeImagem[1]){
+            //Caso seja uma carta diferente da primeira carta virada, o usuário errou. 
+            //Nesse caso, o jogo deve **aguardar 1 segundo** e então virar as duas cartas para baixo novamente.
+            setTimeout(desvirarCartas, 1000, CartaSelecionada[0]);
+            setTimeout(desvirarCartas, 1000, CartaSelecionada[1]);
+            zerarListas(NomeImagem,CartaSelecionada);
+            Selecionadas = 0;
+        }
+    }
+}
+
+function desvirarCartas(CartaSelecionada){
+    //for (let j=0; j<CartaSelecionada.length; j++){
+        const Selecionada = CartaSelecionada;
+        Selecionada.classList.remove("girar-front-face");
+        const selecionadaPai = Selecionada.parentNode;
+        const selecionadaVerso = selecionadaPai.querySelector(".back-face");
+        selecionadaVerso.classList.remove("girar-back-face");
+    //}
+}
+
+function zerarListas(NomeImagem,CartaSelecionada){
+    NomeImagem.shift();
+    NomeImagem.pop()
+    CartaSelecionada.shift();
+    CartaSelecionada.pop()
 }
 
 // Esta função pode ficar separada do código acima, onde você preferir
