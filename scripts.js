@@ -2,6 +2,7 @@ const CartasTotal = ["parrot1.gif","parrot1.gif","parrot2.gif","parrot2.gif","pa
 const CartasJogo = [];
 const NomeImagem = [];
 const CartaSelecionada = [];
+var Jogadas = 0;
 var NumCartas;
 var ConfirmaNumero = 0; // igual a 0 significa que não aceito
 var Selecionadas = 0;
@@ -30,7 +31,6 @@ const DistCartas = document.querySelector(".jogo");
 for (let i = 0; i < NumCartas; i++){
     CartasJogo[i] = CartasTotal[i];
     CartasJogo.sort(comparador); // Após esta linha, a minhaArray estará embaralhada
-    //console.log(CartasJogo);
 }
 
 for (let contador = 0; contador < NumCartas; contador++){
@@ -46,9 +46,6 @@ for (let contador = 0; contador < NumCartas; contador++){
     `;
 }
 
-
-
-
 //Ao clicar em uma carta, ela deve ser virada.
 function virarCartas(cartaSelecionada){
     cartaSelecionada.classList.add("girar-front-face");
@@ -57,12 +54,9 @@ function virarCartas(cartaSelecionada){
     selecionadaVerso.classList.add("girar-back-face");
     const imagem = selecionadaVerso.querySelector("img");
     NomeImagem.push(imagem.getAttribute('src')); // pega e guarda o nome e caminho do arquivo
-    console.log(NomeImagem);
     CartaSelecionada.push(cartaSelecionada); // pega e guarda a div selecionada
-    console.log(CartaSelecionada);
     Selecionadas++;
-    console.log(Selecionadas);
-    console.log(Selecionadas%2);
+    Jogadas++;
     //Caso seja a primeira carta do par, ela deve permanecer virada até o usuário escolher a segunda carta.
     //Caso seja a segunda carta virada, existem duas situações:
     if (Selecionadas%2 == 0){
@@ -79,32 +73,28 @@ function virarCartas(cartaSelecionada){
             Selecionadas = 0;
         }
     }
+    const cartasViradas = document.querySelectorAll(".girar-front-face").length;
+    console.log(cartasViradas);
+    if (cartasViradas == NumCartas){
+        alert("Você ganhou em" + Jogadas + " jogadas!");
+    }
 }
 
 function desvirarCartas(CartaSelecionada){
-    //for (let j=0; j<CartaSelecionada.length; j++){
-        const Selecionada = CartaSelecionada;
-        Selecionada.classList.remove("girar-front-face");
-        const selecionadaPai = Selecionada.parentNode;
-        const selecionadaVerso = selecionadaPai.querySelector(".back-face");
-        selecionadaVerso.classList.remove("girar-back-face");
-    //}
+    const Selecionada = CartaSelecionada;
+    Selecionada.classList.remove("girar-front-face");
+    const selecionadaPai = Selecionada.parentNode;
+    const selecionadaVerso = selecionadaPai.querySelector(".back-face");
+    selecionadaVerso.classList.remove("girar-back-face");
 }
 
 function zerarListas(NomeImagem,CartaSelecionada){
     NomeImagem.shift();
-    NomeImagem.pop()
+    NomeImagem.pop();
     CartaSelecionada.shift();
-    CartaSelecionada.pop()
+    CartaSelecionada.pop();
 }
 
-// Esta função pode ficar separada do código acima, onde você preferir
 function comparador() {
 	return Math.random() - 0.5;
 }
-
-//setInterval mostrar o tempo na tela até um break
-//faço um contador e imprimo o contador const numero = setInterval(função,1000)
-//para parar uso clearInterval(numero)
-
-//setTimeout para esperar 1 segundo para desvirar a carta
