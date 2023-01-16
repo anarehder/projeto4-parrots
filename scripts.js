@@ -6,8 +6,9 @@ var Jogadas = 0;
 var NumCartas;
 var ConfirmaNumero = 0; // igual a 0 significa que não aceito
 var Selecionadas = 0;
-
-//debugger
+var tempoDeJogo = 0;
+var Tempo;
+var ConfirmaJogo = 0; // igual a 0 significa que não recomeço
 
 while(ConfirmaNumero == 0){
     NumCartas = Number(prompt("Com quantas cartas você deseja jogar?"));
@@ -18,12 +19,15 @@ while(ConfirmaNumero == 0){
         }
         else{
             ConfirmaNumero = 1; //valor válido
+            Tempo = setInterval(contar, 1000);
         }
     }
     else{
         alert("Valor inválido!!");
     }
 }
+
+
 
 const DistCartas = document.querySelector(".jogo");
 
@@ -76,7 +80,21 @@ function virarCartas(cartaSelecionada){
     const cartasViradas = document.querySelectorAll(".girar-front-face").length;
     console.log(cartasViradas);
     if (cartasViradas == NumCartas){
-        alert("Você ganhou em" + Jogadas + " jogadas!");
+        clearInterval(Tempo);
+        alert("Você ganhou em " + Jogadas + " jogadas! A duração do jogo foi de " + tempoDeJogo + " segundos!");
+        while (ConfirmaJogo == 0){
+            const reiniciar = prompt("Deseja reiniciar o jogo?");
+            if (reiniciar == "sim"){
+                //começo novamente
+                location.reload();
+                ConfirmaJogo = 1;
+            } else if (reiniciar == "não"){
+                ConfirmaJogo = 2;
+            }
+            else{
+                ConfirmaJogo = 0;
+            }
+        }
     }
 }
 
@@ -98,3 +116,10 @@ function zerarListas(NomeImagem,CartaSelecionada){
 function comparador() {
 	return Math.random() - 0.5;
 }
+
+function contar() {
+    tempoDeJogo++;
+    console.log(tempoDeJogo);
+    const tempoHTML = document.querySelector(".tempo");
+    tempoHTML.innerHTML = tempoDeJogo;
+  }
